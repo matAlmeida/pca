@@ -7,51 +7,70 @@ function [data, labels] = Data()
 %                        2 - Retorna os dados e as labels
 %   Coleta os dados do txt e transforma em array compativel com o matlab
     
-    resultsPath = '~/Documents/trabalhos/ic/Testes/resultados/'; % Colokr como parametros dps
-    opt = 0;
+    resultsPath = '~/Documentos/matheus/Resultados/'; % Colokr como parametros dps
+    opt = 2;
     
-    flabelsP = dir([resultsPath 'ATH*.txt']);
+    
+    %   PEGA  OS
+    %   CAMINHOS
+    % DOS ARQUIVOS
+    
+    flabelsP = dir(fullfile(resultsPath, 'ATH*.txt'));
     sizeL = size(flabelsP);
     if sizeL(1) > 1
         flabelsP = flabelsP(1);
     end
     
-    fdataP = dir([resultsPath '*_ATH.txt']);
+    fdataP = dir(fullfile(resultsPath, '*_ATH.txt'));
     sizeL = size(fdataP);
     if sizeL(1) > 1
-        fdataP = fdataP(1);
+        fdataP = fdataP(sizeL(1));
     end
+    
+    %   ABRE
+    %    OS
+    % ARQUIVOS
     
     flabels = fopen(strcat(resultsPath, flabelsP.name));
     fdata = fopen(strcat(resultsPath, fdataP.name));
     
-    if false(opt)
+    %
+    % LABELS
+    %
+    
+    if opt
         i = 1;    
         labels = {};
         tlabels = fgetl(flabels);
         while ischar(tlabels)
             labels(i,1) = cellstr(tlabels);
             i = i + 1;
+            tlabels = fgetl(flabels); %Enquanto rich n arruma o arquivo de labels
             tlabels = fgetl(flabels);
         end
     end
     
-    i = 1;
-    data = {};
-    tdata = fgetl(fdata);
-    while ischar(tdata)
-        splitedData = strsplit(tdata, ';');
-        [m, n] = size(splitedData);
-        for j = 1:n-1            
-            data(i, j) =  splitedData(j);
-        end
-        i = i + 1;
+    %
+    % DATA
+    %
+    
+    %if false(opt == 1)
+        i = 1;
+        data = {};
         tdata = fgetl(fdata);
-    end
+        tdata = fgetl(fdata);
+        while ischar(tdata)
+            splitedData = strsplit(tdata, ';');
+            [m, n] = size(splitedData);
+            for j = 1:n-1            
+                data(i, j) =  splitedData(j);
+            end
+            i = i + 1;
+            tdata = fgetl(fdata);
+        end
+         
+        data = cellfun(@str2double, data);
+    %end
     
-    data = cellfun(@str2double, data);
-    
-    %clearvars -except data labels
-
 end
 

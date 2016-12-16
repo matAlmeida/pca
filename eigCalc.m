@@ -4,6 +4,8 @@ function [eigValues, eigVectors] = eigCalc(data)
 
 covMatrix = cov(data);
 
+disp(covMatrix)
+
 [eigVectors, eigValues] = eig(covMatrix);
 
 eigValues = eig(covMatrix);
