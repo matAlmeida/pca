@@ -7,7 +7,8 @@ function [data, labels] = Data()
 %                        2 - Retorna os dados e as labels
 %   Coleta os dados do txt e transforma em array compativel com o matlab
     
-    resultsPath = '~/Documentos/matheus/Resultados/'; % Colokr como parametros dps
+    %resultsPath = '~/Documentos/matheus/Resultados/'; % Colokr como parametros dps
+    resultsPath = '~/Documents/trabalhos/ic/pca/Resultados/';
     opt = 2;
     
     
@@ -15,13 +16,13 @@ function [data, labels] = Data()
     %   CAMINHOS
     % DOS ARQUIVOS
     
-    flabelsP = dir(fullfile(resultsPath, 'ATH*.txt'));
+    flabelsP = dir(fullfile(resultsPath, 'ATH_L_*'));
     sizeL = size(flabelsP);
     if sizeL(1) > 1
         flabelsP = flabelsP(1);
     end
     
-    fdataP = dir(fullfile(resultsPath, '*_ATH.txt'));
+    fdataP = dir(fullfile(resultsPath, 'ATH_O_*'));
     sizeL = size(fdataP);
     if sizeL(1) > 1
         fdataP = fdataP(sizeL(1));
@@ -45,9 +46,9 @@ function [data, labels] = Data()
         while ischar(tlabels)
             labels(i,1) = cellstr(tlabels);
             i = i + 1;
-            tlabels = fgetl(flabels); %Enquanto rich n arruma o arquivo de labels
             tlabels = fgetl(flabels);
         end
+        fclose(flabels)
     end
     
     %
@@ -68,6 +69,7 @@ function [data, labels] = Data()
             i = i + 1;
             tdata = fgetl(fdata);
         end
+        fclose(fdata)
          
         data = cellfun(@str2double, data);
     %end
