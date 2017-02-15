@@ -3,7 +3,9 @@ function [data, labels, meta, data_n, data_c, data_b] = Data()
 %Coleta os dados do txt e transforma em matriz compativel com o matlab
 %
 %Entrada: resultsPath -> Caminho com os arquivos txt com resultados e labels
-%
+%         opt -> Opções: 0 - Retorna só os dados (Default)
+%                        1 - Retorna só as labels
+%                        2 - Retorna os dados e as labels
 %Saída: data -> Matriz(N x 13) com os atributos extraidos do Banco de Imagens
 %       labels -> Coluna(N x 1) informando tipo da imagem "n" é:
 %                 0 - Normal
@@ -11,6 +13,7 @@ function [data, labels, meta, data_n, data_c, data_b] = Data()
 %                 2 - Cancer
 
     resultsPath = '~/Documents/trabalhos/ic/pca/Resultados/';
+    opt = 2;
     
     %   PEGA  OS
     %   CAMINHOS
@@ -38,7 +41,8 @@ function [data, labels, meta, data_n, data_c, data_b] = Data()
     % LABELS
     %
     
-    labels = load(strcat(resultsPath, flabelsP.name));
+    if opt
+        labels = load(strcat(resultsPath, flabelsP.name));
 
     %
     % METADATA
@@ -56,10 +60,10 @@ function [data, labels, meta, data_n, data_c, data_b] = Data()
     % APENAS DADOS DE IMAGENS COM A LABEL "NORMAL"
     data_n = data(1:meta{2},:);
     
-    % APENAS DADOS DE IMAGENS COM A LABEL "CANCER"
-    data_c = data(meta{2}+1:meta{2}+meta{3}, :);
+    % APENAS IMAGENS COM A LABEL "CANCER"
+    data_c = data(meta{2}+1:meta{3}, :);
     
-    % APENAS DADOS DE IMAGENS COM A LABEL "BENIGNO"
-    data_b = data(meta{2}+meta{3}+1:meta{2}+meta{3}+meta{4}, :);
+    % APENAS IMAGENS COM A LABEL "BENIGNO"
+    data_b = data(meta{3}+1:meta{4}, :);
 end
 
