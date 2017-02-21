@@ -2,15 +2,14 @@ function [data, labels, meta, data_n, data_c, data_b] = Data()
 %DATA Summary of this function goes here
 %Coleta os dados do txt e transforma em matriz compativel com o matlab
 %
-%Entrada: resultsPath -> Caminho com os arquivos txt com resultados e labels
-%
 %Saída: data -> Matriz(N x 13) com os atributos extraidos do Banco de Imagens
 %       labels -> Coluna(N x 1) informando tipo da imagem "n" é:
 %                 0 - Normal
 %                 1 - Benigno
 %                 2 - Cancer
 
-    resultsPath = '~/Documents/trabalhos/ic/pca/Resultados/';
+    resultsPath = uigetdir('', 'Selecione a pasta com os resultados');
+    resultsPath = strcat(resultsPath, '/');
     
     %   PEGA  OS
     %   CAMINHOS
@@ -62,4 +61,3 @@ function [data, labels, meta, data_n, data_c, data_b] = Data()
     % APENAS DADOS DE IMAGENS COM A LABEL "BENIGNO"
     data_b = data(meta{2}+meta{3}+1:meta{2}+meta{3}+meta{4}, :);
 end
-
